@@ -1,0 +1,23 @@
+<launch>
+	<!-- run turtle -->
+	<node name="turtle1_sim" pkg="turtlesim" type="turtlesim_node" output="screen"/>
+
+	<!-- run env server node - fake laser sim -->
+	<node name="env_server_node" pkg="fake_laser_sim" type="env_server_node.py" output="screen">
+		<rosparam file="$(find fake_laser_sim)/params/default.yaml" command="load"/>
+		<param name="laser/frame_id" value="turtle1"/>
+		<remap from="pose" to="turtle1/pose" />
+		<remap from="scan" to="turtle1/scan" />
+	</node>
+
+	<!-- run object spawner node -->
+	<node name="spawn_node" pkg="fake_laser_sim" type="object_spawner.py" output="screen" />
+
+	<!-- run keyboard teleop node -->
+	<node name="teleop_node" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen" launch-prefix="gnome-terminal -- ">
+		<remap from="cmd_vel" to="turtle1/cmd_vel" />
+	</node>
+
+	<!-- launch rviz -->
+	<node pkg="rviz" type="rviz" name="rviz" args=" -d $(find fake_laser_sim)/rviz/default.rviz" />
+</launch>

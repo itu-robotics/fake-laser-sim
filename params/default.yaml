@@ -1,0 +1,5 @@
+laser:
+  rays: 60
+  start_angle: -3.14
+  end_angle: 3.14
+  noise_std_dev: 0.01

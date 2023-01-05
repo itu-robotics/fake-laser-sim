@@ -1,0 +1,5 @@
+string id
+fake_laser_sim/Shape shape
+---
+bool success
+string message
